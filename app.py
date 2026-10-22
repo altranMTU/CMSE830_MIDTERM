@@ -28,7 +28,7 @@ sns.set_theme(style="whitegrid")
 st.title("Formula 1: Pit Stops, Tire Age & Lap Times")
 st.write(
     "**Research question:** How do tire age, tire compound, and the timing of pit stops relate "
-    "to lap-time performance? This exploratory dashboard is for Formula 1 fans and data-science learners."
+    "to lap-time performance?"
 )
 
 # Dropdown options: display text is mapped to a year and circuit search term.
@@ -150,21 +150,6 @@ with t1:
     age = clean.groupby(["compound", "tyre_age"], as_index=False).agg(
         median_lap=("lap_duration", "median"), count=("lap_duration", "size"))
     # Put pace trends and their supporting sample sizes side by side.
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.subheader("Median lap time by tire age")
-        fig, ax = plt.subplots(figsize=(8, 5))
-        # Draw the median for each age. No additional Seaborn aggregation is needed.
-        sns.lineplot(data=age, x="tyre_age", y="median_lap", hue="compound", marker="o", estimator=None, ax=ax)
-        ax.set(xlabel="Estimated tire age (laps)", ylabel="Median lap time (seconds)")
-        st.pyplot(fig); plt.close(fig)
-    with col_b:
-        st.subheader("Number of observations")
-        fig, ax = plt.subplots(figsize=(8, 5))
-        # Counts show when a median is based on many versus very few laps.
-        sns.lineplot(data=age, x="tyre_age", y="count", hue="compound", marker="o", estimator=None, ax=ax)
-        ax.set(xlabel="Estimated tire age (laps)", ylabel="Observed laps")
-        st.pyplot(fig); plt.close(fig)
 
 # Tab 2 — Question: How do observed lap times differ between compounds?
 with t2:
