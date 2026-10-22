@@ -122,9 +122,7 @@ def clean_pace_laps(data, upper_ratio=1.15):
     Keep laps suitable for examining normal tire/race pace.
 
     Remove pit-affected laps, unusually slow laps, and laps without known tire
-    details. The default 1.15 threshold means a lap is removed if its duration
-    is more than 115% of that DRIVER'S median (not the whole field's median).
-    This is a practical heuristic, not an official race-condition label.
+    details.
     """
 
     # Give each driver an individual upper limit, based on typical lap pace.

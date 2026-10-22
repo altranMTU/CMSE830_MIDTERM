@@ -30,7 +30,6 @@ st.write(
     "**Research question:** How do tire age, tire compound, and the timing of pit stops relate "
     "to lap-time performance? This exploratory dashboard is for Formula 1 fans and data-science learners."
 )
-st.caption("It describes observed outcomes; it does not yet establish a causally optimal pit lap.")
 
 # Dropdown options: display text is mapped to a year and circuit search term.
 RACES = {
@@ -127,16 +126,6 @@ metrics[1].metric("Clean laps (selection)", len(clean))
 metrics[2].metric("Recorded pit visits (selection)", len(selected_pits))
 metrics[3].metric("Session key", key)
 
-# Document important cleaning choices and show diagnostic counts for the
-# midterm's data-preparation / reproducibility requirements.
-with st.expander("How the race data was prepared", expanded=False):
-    st.write("One observation is a driver-lap. Tire stints are linked to laps by driver and inclusive stint lap range. "
-             "We discard invalid or duplicate lap records, preserve unknown tire ages as missing, and flag the recorded pit lap "
-             "and the following lap as potentially pit-affected. For clean-pace plots we exclude those laps and laps "
-             "slower than the selected fraction of each driver's median. These are heuristic choices, not FIA race-control classifications.")
-    st.dataframe(pd.DataFrame(quality.items(), columns=["Quality measure", "Value"]), hide_index=True)
-    st.write(f"Additional clean-pace rows removed by filtering: {len(laps) - len(clean_all)}")
-
 # Avoid drawing graphs with no rows after filtering.
 if clean.empty:
     st.warning("The current filters yield no usable pace observations. Select more drivers or compounds.")
@@ -176,7 +165,6 @@ with t1:
         sns.lineplot(data=age, x="tyre_age", y="count", hue="compound", marker="o", estimator=None, ax=ax)
         ax.set(xlabel="Estimated tire age (laps)", ylabel="Observed laps")
         st.pyplot(fig); plt.close(fig)
-    st.caption("Each median has a different sample size; sparse ages should not be overinterpreted.")
 
 # Tab 2 — Question: How do observed lap times differ between compounds?
 with t2:
@@ -194,7 +182,6 @@ with t2:
     quickest = summary.loc[summary["median"].idxmin()]
     st.write(f"**Lowest observed median among selected compounds:** {summary['median'].idxmin()} "
              f"at {quickest['median']:.2f} seconds across {int(quickest['count'])} laps.")
-    st.caption("This comparison is descriptive, not an equal-driver, equal-fuel test. Check sample sizes before interpreting.")
 
 # Tab 3 — Question: How does a driver's pace change around pit visits?
 with t3:
@@ -254,7 +241,6 @@ with t4:
         st.pyplot(fig); plt.close(fig)
         st.write(f"**Median observed change across {len(compare)} comparable pit events:** "
                  f"{compare['Change (s)'].median():+.2f} seconds; negative values indicate faster laps afterward.")
-    st.caption("Comparisons use up to 3 clean laps before and laps 2–4 after a pit. These associations do not prove a pit-stop benefit.")
 
 # End with the limits of the analysis, rather than claiming that the
 # observed patterns directly identify an optimal pit-stop lap.
@@ -263,6 +249,3 @@ st.subheader("Limitations and next work")
 st.write("Fuel consumption, tire allocation, different drivers, overtaking, safety cars, weather and small compound samples "
          "can influence the patterns. A future model should estimate net pit loss, build compound-specific pace curves "
          "and validate predicted pit windows on races not used for fitting.")
-# export a csv file of driverlap data.
-st.download_button("Download prepared driver-lap CSV", laps.to_csv(index=False),
-                   file_name="laps_with_tires.csv", mime="text/csv")
