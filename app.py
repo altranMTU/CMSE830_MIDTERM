@@ -34,7 +34,7 @@ st.caption("It describes observed outcomes; it does not yet establish a causally
 
 # Dropdown options: display text is mapped to a year and circuit search term.
 RACES = {
-    "2024 Spanish Grand Prix (Barcelona)": (2024, "Barcelona"),
+    "2024 Spanish Grand Prix (Catalunya)": (2024, "Catalunya"),
     "2024 Italian Grand Prix (Monza)": (2024, "Monza"),
 }
 
