@@ -1,0 +1,4 @@
+Tool/version : Chatgpt GPT-6
+Purpose: to get syntax for figuring out how to use the streamlit features, plot features, and debugging some code
+checking output: by testing the code and going and making sure it works
+personal contribution: I modified the code to fit what i needed for this project along with fully interpreting the data.
